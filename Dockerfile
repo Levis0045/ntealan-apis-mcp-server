@@ -40,4 +40,4 @@ RUN uv sync --locked --no-cache-dir
 ENV PATH="/app/.venv/bin:$PATH"
 EXPOSE 8000
 
-CMD ["uv", "run", "src/ntealan_apis_mcp/main.py -t stdio"]
+CMD ["uv", "run", "ntealanmcp", "-t", "stdio"]
