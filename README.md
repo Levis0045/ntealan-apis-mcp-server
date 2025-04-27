@@ -1,6 +1,8 @@
 <div align="center">
 
-<span style="font-size: 28px;font-weight: bold">🦜 NTeALan REST APIs MCP Server</span>
+<img src="docs/logo.png" width=140 alt="NTeALan REST APIs MCP Server"/></img>
+
+<span style="font-size: 28px;font-weight: bold"> NTeALan REST APIs MCP Server</span>
 
 A modular, extensible <a href="https://modelcontextprotocol.io/"> Model Context Protocol (MCP) </a> server for [NTeALan REST APIs dictionaries](https://apis.ntealan.net/ntealan) and contributions. This project provides a unified interface for managing dictionary data, articles, and user contributions, and is designed for easy integration and extension.
 
@@ -16,7 +18,7 @@ The project is deployed at [https://apis.ntealan.net/ntealan/mcpserver](https://
 
 ---
 
-## Table of Contents
+## 🦜 Table of Contents
 
 - [Features](#features)
 - [Getting Started](#getting-started)
@@ -33,7 +35,7 @@ The project is deployed at [https://apis.ntealan.net/ntealan/mcpserver](https://
 
 ---
 
-## Features
+## 🦜 Features
 
 - **Dictionary Management**: Create, update, delete, and retrieve dictionaries and their metadata.
 - **Article Management**: Manage articles within dictionaries, including statistics and filtering.
@@ -44,7 +46,7 @@ The project is deployed at [https://apis.ntealan.net/ntealan/mcpserver](https://
 
 ---
 
-## Getting Started
+## 🦜 Getting Started
 
 ### Prerequisites
 
@@ -95,7 +97,7 @@ The server will run using the `Server-Sent Events (sse)` transport by default at
 
 ---
 
-## Project Structure
+## 🦜 Project Structure
 
 ```
 ntealan-api/
@@ -128,7 +130,7 @@ ntealan-api/
 
 ---
 
-## Usage
+## 🦜 Usage
 
 ### Primitive resources
 
@@ -275,12 +277,12 @@ if __name__ == "__main__":
 
 ---
 
-## Contributing
+## 🦜 Contributing
 
 Get more informations in this file: [CONTRIBUTION.md](CONTRIBUTION.md)
 
 
-## Contact
+## 🦜 Contact
 
 - **Project Lead**: Elvis Mboning@[NTeALan](https://ntealan.org/)
 - **NTeALan APIs documentation**: [https://apis.ntealan.net/ntealan](https://apis.ntealan.net/ntealan)
