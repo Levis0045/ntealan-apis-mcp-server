@@ -14,6 +14,7 @@ def event_loop():
     yield loop
     loop.close()
 
+
 @pytest.fixture(scope="module")
 def sse_client():
     """

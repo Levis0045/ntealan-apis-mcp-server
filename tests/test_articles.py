@@ -1,8 +1,7 @@
-import pytest
-from mcp.types import TextResourceContents
 from json import loads as json_loads
 
-from .fixtures import sse_client
+import pytest
+from mcp.types import TextResourceContents
 
 # Test tools -- Article calls (TO COMPLETE LATER) --
 # Thiw will need NTeALan API token: get it from NTeALan API admin
@@ -58,6 +57,7 @@ from .fixtures import sse_client
 
 # Test resource -- Article resource calls --
 
+
 @pytest.mark.asyncio
 async def test_read_article_resource(sse_client):
     """
@@ -72,6 +72,7 @@ async def test_read_article_resource(sse_client):
         assert "status" in result[0].text
         assert json_loads(result[0].text).get("status") == "OK"
 
+
 @pytest.mark.asyncio
 async def test_read_articles_with_limit(sse_client):
     """
@@ -84,6 +85,7 @@ async def test_read_articles_with_limit(sse_client):
         assert isinstance(result[0], TextResourceContents)
         assert "status" in result[0].text
         assert json_loads(result[0].text).get("status") == "OK"
+
 
 @pytest.mark.asyncio
 async def test_read_articles_by_dictionary_id(sse_client):
@@ -98,6 +100,7 @@ async def test_read_articles_by_dictionary_id(sse_client):
         assert "status" in result[0].text
         assert json_loads(result[0].text).get("status") == "OK"
 
+
 @pytest.mark.asyncio
 async def test_read_articles_statistics_by_dictionary(sse_client):
     """
@@ -110,6 +113,7 @@ async def test_read_articles_statistics_by_dictionary(sse_client):
         assert isinstance(result[0], TextResourceContents)
         assert "status" in result[0].text
         assert json_loads(result[0].text).get("status") == "OK"
+
 
 @pytest.mark.asyncio
 async def test_read_articles_statistics(sse_client):

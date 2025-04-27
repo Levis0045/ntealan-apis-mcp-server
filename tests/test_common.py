@@ -1,6 +1,5 @@
 import pytest
 
-from .fixtures import sse_client
 
 @pytest.mark.asyncio
 async def test_list_tools(sse_client):
@@ -12,6 +11,7 @@ async def test_list_tools(sse_client):
         tools = await sse_client.list_tools()
         assert isinstance(tools, list)
 
+
 @pytest.mark.asyncio
 async def test_list_resources(sse_client):
     """
@@ -21,6 +21,7 @@ async def test_list_resources(sse_client):
         assert sse_client.is_connected()
         resources = await sse_client.list_resources()
         assert isinstance(resources, list)
+
 
 @pytest.mark.asyncio
 async def test_list_resource_templates(sse_client):

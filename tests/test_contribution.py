@@ -1,8 +1,7 @@
-import pytest
-from mcp.types import TextResourceContents
 from json import loads as json_loads
 
-from .fixtures import sse_client
+import pytest
+from mcp.types import TextResourceContents
 
 # Test tool -- Contribution calls (TO COMPLETE LATER) --
 # This will need NTeALan API token: get it from NTeALan API admin
@@ -60,6 +59,7 @@ from .fixtures import sse_client
 #         assert type(result) is list
 
 # Test resource -- Contribution resource --
+
 
 @pytest.mark.asyncio
 async def test_read_contribution_resource(sse_client):
