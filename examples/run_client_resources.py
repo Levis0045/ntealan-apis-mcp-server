@@ -68,8 +68,8 @@ if __name__ == "__main__":
         headers = {"Authorization": "Bearer mytoken"}
         if args.env == "prod":
             host_sse_url = "https://apis.ntealan.net/ntealan/mcpserver/sse"
-            environ["FASTMCP_SERVER_MESSAGE_PATH"] = "/ntealan/mpcserver/messages/"
-            environ["FASTMCP_SERVER_SSE_PATH"] = "/ntealan/mpcserver/sse"
+            environ["FASTMCP_SERVER_MESSAGE_PATH"] = "/messages/"
+            environ["FASTMCP_SERVER_SSE_PATH"] = "/sse"
             environ["FASTMCP_SERVER_HOST"] = "https://apis.ntealan.net/ntealan/mcpserver"
             transport = SSETransport(url=host_sse_url, headers=headers)
         else:
