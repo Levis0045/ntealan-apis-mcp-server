@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/logo.png" width=140 alt="NTeALan REST APIs MCP Server"/></img>
+<img src="docs/logo.png" width=140 alt="NTeALan REST APIs MCP Server"/>
 
 <span style="font-size: 28px;font-weight: bold"> NTeALan REST APIs MCP Server</span>
 
@@ -203,9 +203,18 @@ Check `examples/` folder to run and test some samples.
 
 ```bash
 # for all resources
-uv run examples/run_client_resources.py
+uv run examples/run_client_resources.py -t sse -e prod -s 8
 # for all tools
-uv run examples/run_client_tools.py
+uv run examples/run_client_tools.py -t stdio -e local -s 0
+```
+
+You can get docs on :
+
+```bash
+# for all resources
+uv run examples/run_client_resources.py -h
+# for all tools
+uv run examples/run_client_tools.py -h
 ```
 
 ### Deploying with Docker
