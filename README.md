@@ -2,11 +2,13 @@
 
 <img src="docs/logo.png" width=140 alt="NTeALan REST APIs MCP Server"/>
 
-<span style="font-size: 28px;font-weight: bold"> NTeALan REST APIs MCP Server</span>
+<span style="font-size: 28px;font-weight: bold"> <strong>NTeALan REST APIs MCP Server</strong></span>
 
 A modular, extensible <a href="https://modelcontextprotocol.io/"> Model Context Protocol (MCP) </a> server for [NTeALan REST APIs dictionaries](https://apis.ntealan.net/ntealan) and contributions. This project provides a unified interface for managing dictionary data, articles, and user contributions, and is designed for easy integration and extension.
 
-The project is deployed at [https://apis.ntealan.net/ntealan/mcpserver](https://apis.ntealan.net/ntealan/mcpserver). Only resource actions is available now (this dev endpoint could be unavailable sometimes).
+The project is deployed at [https://apis.ntealan.net/ntealan/mcpserver](https://apis.ntealan.net/ntealan/mcpserver). Only resource actions can be used now.
+
+⚠️ This dev endpoint could be unavailable sometimes. Just create an issue and we will work on it.
 
 [![smithery badge](https://smithery.ai/badge/@Levis0045/ntealan-apis-mcp-server)](https://smithery.ai/server/@Levis0045/ntealan-apis-mcp-server)
 
