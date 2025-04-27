@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  ntealan-mcp-server:
+    build: .
+    container_name: ntealan-mcp-server
+    restart: always
+    expose:
+      - 8000
+    ports:
+      - 8000:8000
+    volumes: 
+      - .:/app
+    networks:
+      - ntealanmcpnetwork
+
+networks:
+  ntealanmcpnetwork:
+    driver: bridge

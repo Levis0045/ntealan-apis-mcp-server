@@ -16,6 +16,7 @@ RUN sh /uv-installer.sh && rm /uv-installer.sh
 
 # Ensure the installed binary is on the `PATH`
 ENV PATH="/root/.local/bin/:$PATH"
+ENV UV_LINK_MODE=copy
 
 # Copy the project into the image
 RUN git clone --depth 1 https://github.com/Levis0045/ntealan-apis-mcp-server.git /app
@@ -31,5 +32,7 @@ WORKDIR /app
 RUN uv sync --locked --no-cache-dir --compile-bytecode
 
 ENV PATH="/app/.venv/bin:$PATH"
+EXPOSE 8000
 
-CMD ["ntealanmcp"]
+
+CMD ["uv", "run", "ntealanmcp"]
