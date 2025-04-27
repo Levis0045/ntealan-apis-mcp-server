@@ -1,6 +1,6 @@
 default_language_version:
   python: python3.11
-  
+
 repos:
   - repo: https://github.com/astral-sh/uv-pre-commit
     # uv version.
@@ -25,3 +25,8 @@ repos:
       # Run the formatter.
       - id: ruff-format
         types_or: [ python, pyi ]
+
+  - repo: https://github.com/sirwart/ripsecrets
+    rev: v0.1.8 # Use latest tag on GitHub
+    hooks:
+      - id: ripsecrets

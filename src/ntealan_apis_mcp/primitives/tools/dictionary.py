@@ -1,7 +1,7 @@
-
 from ntealan_apis_mcp.models.dictionary import Dictionary
 
 # NOT COMPLETED
+
 
 def create_dictionary(dictionary_id: str, data: Dictionary) -> str:
     """
@@ -16,6 +16,7 @@ def create_dictionary(dictionary_id: str, data: Dictionary) -> str:
     """
     return "a + b"
 
+
 def update_dictionary(dictionary_id: str, data: Dictionary) -> str:
     """
     Update an existing dictionary in the NTeALan API.
@@ -28,6 +29,7 @@ def update_dictionary(dictionary_id: str, data: Dictionary) -> str:
         str: The API response as a string.
     """
     return "a + b"
+
 
 def delete_dictionary(dictionary_id: str) -> str:
     """

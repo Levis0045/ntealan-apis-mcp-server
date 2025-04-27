@@ -17,7 +17,8 @@ def lru_acache(maxsize: int = 128):
 
         @wraps(func)
         async def wrapper(*args, **kwargs) -> Awaitable:
-            # Create a cache key from event loop, args and kwargs, using frozenset for kwargs to ensure hashability
+            # Create a cache key from event loop, args and kwargs,
+            # using frozenset for kwargs to ensure hashability
             key = (
                 id(asyncio.get_event_loop()),
                 args,

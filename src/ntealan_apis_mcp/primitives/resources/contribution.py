@@ -8,9 +8,7 @@ from ntealan_apis_mcp.models.common import McpResourceResponse
 
 # Add a dynamic contribution resource
 async def get_contribution_by_dictionary_id(
-    dictionary_id: str,
-    contribution_id: UUID,
-    ctx: Context = None
+    dictionary_id: str, contribution_id: UUID, ctx: Context = None
 ) -> McpResourceResponse:
     """
     Retrieve a contribution by its unique identifier within a specific dictionary.
@@ -21,7 +19,7 @@ async def get_contribution_by_dictionary_id(
         ctx (Context): The context object containing request-specific information.
 
     Returns:
-        McpResourceResponse: A dictionary containing the status of the operation, 
+        McpResourceResponse: A dictionary containing the status of the operation,
                              system load, and client-specific information.
 
     Example:
@@ -47,7 +45,7 @@ async def get_contribution_by_dictionary_id(
             "status": "ERROR",
             "data": None,
             "error_code": response.status,
-            "error_message": response.reason
+            "error_message": response.reason,
         }
 
     # Log successful status
@@ -58,10 +56,7 @@ async def get_contribution_by_dictionary_id(
 
     # Parse the JSON response
     json_response = await response.json()
-    return {
-        "status": "OK",
-        "data": json_response
-    }
+    return {"status": "OK", "data": json_response}
 
 
 # Placeholder functions for other contribution-related operations

@@ -8,27 +8,25 @@ from ntealan_apis_mcp.models.common import McpResourceResponse
 
 
 # Add a dynamic greeting resource
-async def get_metadata_dictionary_by_id(
-    dictionary_id: UUID,
-    ctx: Context
-) -> McpResourceResponse:
+async def get_metadata_dictionary_by_id(dictionary_id: UUID, ctx: Context) -> McpResourceResponse:
     """
     Retrieve metadata for a dictionary by its unique identifier.
 
     Args:
         dictionary_id (UUID): The unique identifier of the dictionary.
-        ctx (Context): The context object containing request-specific information.
+        ctx (Context): The context object with request-specific information.
 
     Returns:
-        McpResourceResponse: A dictionary containing the status of the operation,
-        the retrieved metadata, error information (if any), and context metadata.
+        McpResourceResponse: A dictionary containing the status
+        of the operation,the retrieved metadata, error information
+        (if any), and context metadata.
 
     Example:
         result = await get_metadata_dictionary_by_id(some_uuid, ctx)
         print(result)
     """
     # Report initial progress
-    await ctx.report_progress(1, 3) # Report completion
+    await ctx.report_progress(1, 3)  # Report completion
     # Build the URL path for the metadata request
     url_path = f"dictionaries/metadata/{dictionary_id}"
     # Log the request execution
@@ -36,7 +34,7 @@ async def get_metadata_dictionary_by_id(
     # Perform the HTTP GET request
     response = await run_resource_aiohttp_session(url_path)
     # Report progress after request
-    await ctx.report_progress(2, 3) # Report completion
+    await ctx.report_progress(2, 3)  # Report completion
     # Log the response status
     await ctx.info(f"[{ctx.request_id}] Checking system status: {response}...")
     # Handle non-200 responses as errors
@@ -46,19 +44,17 @@ async def get_metadata_dictionary_by_id(
             "status": "ERROR",
             "data": None,
             "error_code": response.status,
-            "error_message": response.reason
+            "error_message": response.reason,
         }
     # Log successful status
     await ctx.info(f"[{ctx.request_id}] System status is OK.")
     # Final progress report
-    await ctx.report_progress(3, 3) # Report completion
+    await ctx.report_progress(3, 3)  # Report completion
     # Parse the JSON response
     json_response = await response.json()
     # Return the metadata in a standardized response format
-    return {
-        "status": "OK",
-        "data": json_response.get("metadata", [])
-    }
+    return {"status": "OK", "data": json_response.get("metadata", [])}
+
 
 async def get_all_metadata_dictionaries(params: str, ctx: Context) -> McpResourceResponse:
     """
@@ -66,29 +62,27 @@ async def get_all_metadata_dictionaries(params: str, ctx: Context) -> McpResourc
 
     Args:
         params (str): Additional URL parameters for the request.
-        ctx (Context): The context object containing request-specific information.
+        ctx (Context): The context object with request-specific information.
 
     Returns:
-        McpResourceResponse: A dictionary containing the status of the operation,
-        the retrieved metadata list, error information (if any), and context metadata.
+        McpResourceResponse: A dictionary containing the status
+        of the operation, the retrieved metadata list, error information
+        (if any), and context metadata.
 
     Example:
         result = await get_all_metadata_dictionaries("limit=10", ctx)
         print(result)
     """
     # Report initial progress
-    await ctx.report_progress(1, 3) # Report completion
+    await ctx.report_progress(1, 3)  # Report completion
     # Build the URL path for the metadata dictionaries request
-    url_path = check_and_make_url_params(
-        "dictionaries/metadata",
-        params
-    )
+    url_path = check_and_make_url_params("dictionaries/metadata", params)
     # Log the request execution
     await ctx.info(f"[{ctx.request_id}] Execute get request: {url_path}...")
     # Perform the HTTP GET request
     response = await run_resource_aiohttp_session(url_path)
     # Report progress after request
-    await ctx.report_progress(2, 3) # Report completion
+    await ctx.report_progress(2, 3)  # Report completion
     # Log the response status
     await ctx.info(f"[{ctx.request_id}] Checking system status: {response}...")
     # Handle non-200 responses as errors
@@ -98,19 +92,17 @@ async def get_all_metadata_dictionaries(params: str, ctx: Context) -> McpResourc
             "status": "ERROR",
             "data": None,
             "error_code": response.status,
-            "error_message": response.reason
+            "error_message": response.reason,
         }
     # Log successful status
     await ctx.info(f"[{ctx.request_id}] System status is OK.")
     # Final progress report
-    await ctx.report_progress(3, 3) # Report completion
+    await ctx.report_progress(3, 3)  # Report completion
     # Parse the JSON response
     json_response = await response.json()
     # Return the metadata list in a standardized response format
-    return {
-        "status": "OK",
-        "data": json_response.get("metadata", [])
-    }
+    return {"status": "OK", "data": json_response.get("metadata", [])}
+
 
 async def get_statistics_metadata_dictionaries(ctx: Context) -> McpResourceResponse:
     """
@@ -129,11 +121,11 @@ async def get_statistics_metadata_dictionaries(ctx: Context) -> McpResourceRespo
             the retrieved data (if successful), or error details in case of failure.
     """
 
-    await ctx.report_progress(1, 3) # Report completion
+    await ctx.report_progress(1, 3)  # Report completion
     url_path = "dictionaries/metadata"
     await ctx.info(f"[{ctx.request_id}] Execute get request: {url_path}...")
     response = await run_resource_aiohttp_session(url_path)
-    await ctx.report_progress(2, 3) # Report completion
+    await ctx.report_progress(2, 3)  # Report completion
     await ctx.info(f"[{ctx.request_id}] Checking system status: {response}...")
     if response.status != 200:
         await ctx.error(f"[{ctx.request_id}] Error: {response.status}")
@@ -141,20 +133,17 @@ async def get_statistics_metadata_dictionaries(ctx: Context) -> McpResourceRespo
             "status": "ERROR",
             "data": None,
             "error_code": response.status,
-            "error_message": response.reason
+            "error_message": response.reason,
         }
     await ctx.info(f"[{ctx.request_id}] System status is OK.")
     # Perform checks
-    await ctx.report_progress(3, 3) # Report completion
+    await ctx.report_progress(3, 3)  # Report completion
     json_response = await response.json()
-    return {
-        "status": "OK",
-        "data": json_response
-    }
+    return {"status": "OK", "data": json_response}
+
 
 async def get_statistics_metadata_dictionary_by_id(
-    dictionary_id: UUID,
-    ctx: Context
+    dictionary_id: UUID, ctx: Context
 ) -> McpResourceResponse:
     """
     Fetches the statistics metadata for a dictionary by its ID.
@@ -168,14 +157,14 @@ async def get_statistics_metadata_dictionary_by_id(
         ctx (Context): The context object containing request and logging utilities.
 
     Returns:
-        McpResourceResponse: A dictionary containing the status of the operation, 
+        McpResourceResponse: A dictionary containing the status of the operation,
         the retrieved data (if successful), or error details in case of failure.
     """
-    await ctx.report_progress(1, 3) # Report completion
+    await ctx.report_progress(1, 3)  # Report completion
     url_path = f"dictionaries/metadata/{dictionary_id}"
     await ctx.info(f"[{ctx.request_id}] Execute get request: {url_path}...")
     response = await run_resource_aiohttp_session(url_path)
-    await ctx.report_progress(2, 3) # Report completion
+    await ctx.report_progress(2, 3)  # Report completion
     await ctx.info(f"[{ctx.request_id}] Checking system status: {response}...")
     if response.status != 200:
         await ctx.error(f"[{ctx.request_id}] Error: {response.status}")
@@ -183,13 +172,10 @@ async def get_statistics_metadata_dictionary_by_id(
             "status": "ERROR",
             "data": None,
             "error_code": response.status,
-            "error_message": response.reason
+            "error_message": response.reason,
         }
     await ctx.info(f"[{ctx.request_id}] System status is OK.")
     # Perform checks
     json_response = await response.json()
-    await ctx.report_progress(3, 3) # Report completion
-    return {
-        "status": "OK",
-        "data": json_response.get("metadata").get("statistics")
-    }
+    await ctx.report_progress(3, 3)  # Report completion
+    return {"status": "OK", "data": json_response.get("metadata").get("statistics")}

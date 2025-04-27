@@ -4,6 +4,7 @@ from ntealan_apis_mcp.models.contribution import Contribution
 
 # NOT COMPLETED
 
+
 def create_contribution(contribution_id: UUID, data: Contribution) -> str:
     """
     Create a new contribution for an article in a dictionary.
@@ -17,6 +18,7 @@ def create_contribution(contribution_id: UUID, data: Contribution) -> str:
         str: The API response as a string.
     """
     return "a + b"
+
 
 def update_contribution(contribution_id: UUID, data: Contribution) -> str:
     """
@@ -32,6 +34,7 @@ def update_contribution(contribution_id: UUID, data: Contribution) -> str:
         str: The API response as a string.
     """
     return "a + b"
+
 
 def delete_contribution(contribution_id: UUID) -> str:
     """

@@ -1,4 +1,3 @@
-
 def check_and_make_url_params(url: str, params: str) -> str:
     """
     Check and make params for the request.
