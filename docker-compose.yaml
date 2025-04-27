@@ -1,18 +1,21 @@
-version: '3.8'
-
 services:
   ntealan-mcp-server:
     build: .
     container_name: ntealan-mcp-server
-    restart: always
-    expose:
-      - 8000
+    restart: unless-stopped
     ports:
-      - 8000:8000
-    volumes: 
-      - .:/app
+      - "8000:8000"
+    working_dir: "/app"
+    #volumes:
+    environment:
+      - FASTMCP_SERVER_HOST=0.0.0.0
+      - FASTMCP_SERVER_PORT=8000
+      - FASTMCP_SERVER_DEBUG=false
+      - FASTMCP_SERVER_SSE_PATH=/sse
+      - FASTMCP_SERVER_MESSAGE_PATH=/messages/
     networks:
       - ntealanmcpnetwork
+    command: ["uv", "run", "ntealanmcp", "-t", "sse"]
 
 networks:
   ntealanmcpnetwork:

@@ -1,0 +1,24 @@
+# Smithery.ai configuration
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    {}
+  commandFunction:
+    # A function that produces the CLI command to start the MCP on stdio.
+    |-
+    (config) => ({
+      "command": "uv",
+      "args": [
+        "run",
+        "src/ntealan_apis_mcp/main.py",
+        "-t",
+        "stdio"
+      ],
+      "env": {
+        NTEALAN_BASE_API_URL: https://apis.ntealan.net/ntealan/,
+        NTEALAN_API_AIOHTTP_TIMEOUT: 30,
+        NTEALAN_API_AIOHTTP_RETRIES: 3,
+        NTEALAN_API_AIOHTTP_RETRY_DELAY: 5
+      }
+    })

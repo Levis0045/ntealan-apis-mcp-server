@@ -24,15 +24,20 @@ RUN git clone --depth 1 https://github.com/Levis0045/ntealan-apis-mcp-server.git
 # Defined env for the fastmcp server
 ENV FASTMCP_SERVER_SSE_PATH=/sse
 ENV FASTMCP_SERVER_MESSAGE_PATH=/messages/
-ENV FASTMCP_SERVER_HOST=127.0.0.1
+ENV FASTMCP_SERVER_HOST=0.0.0.0
 ENV FASTMCP_SERVER_PORT=8000
+ENV NTEALAN_BASE_API_URL="https://apis.ntealan.net/ntealan/"
+ENV NTEALAN_API_VERSION=v1
+ENV NTEALAN_API_AIOHTTP_TIMEOUT=30
+ENV NTEALAN_API_AIOHTTP_RETRIES=3
+ENV NTEALAN_API_AIOHTTP_RETRY_DELAY=5
 
 # Sync the project into a new environment, asserting the lockfile is up to date
 WORKDIR /app
-RUN uv sync --locked --no-cache-dir --compile-bytecode
+RUN uv sync --locked --no-cache-dir 
+# RUN uv sync --locked --no-cache-dir  --compile-bytecode
 
 ENV PATH="/app/.venv/bin:$PATH"
 EXPOSE 8000
 
-
-CMD ["uv", "run", "ntealanmcp"]
+CMD ["uv", "run", "src/ntealan_apis_mcp/main.py -t stdio"]
