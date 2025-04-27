@@ -1,5 +1,6 @@
 <div align="center">
-<p style="font-size: 28px;font-weight: bold">NTeALan REST APIs MCP Server</p>
+
+<span style="font-size: 28px;font-weight: bold">🦜 NTeALan REST APIs MCP Server</span>
 
 A modular, extensible <a href="https://modelcontextprotocol.io/"> Model Context Protocol (MCP) </a> server for [NTeALan REST APIs dictionaries](https://apis.ntealan.net/ntealan) and contributions. This project provides a unified interface for managing dictionary data, articles, and user contributions, and is designed for easy integration and extension.
 
@@ -12,6 +13,7 @@ The project is deployed at [https://apis.ntealan.net/ntealan/mcpserver](https://
 [![Documentation][docs-badge]][docs-url]
 
 </div>
+
 ---
 
 ## Table of Contents
@@ -223,7 +225,7 @@ docker build -t ntealan-mcp-server .
 ```bash
 docker compose version
 ```
-- Start the service
+- Build and start the service
 
 ```bash
 docker compose up --build -d
