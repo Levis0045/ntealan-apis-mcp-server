@@ -11,8 +11,10 @@ Usage:
 Edit the script to test specific tools or resources as needed.
 """
 
+import argparse
 import asyncio
 import logging
+from os import environ
 from pathlib import Path
 
 from fastmcp import Client
@@ -26,19 +28,8 @@ logger = logging.getLogger(__name__)
 # Define static roots for the client
 static_roots: RootsList = [str(Path(__file__).parent.parent)]
 
-# --- Transport configurations: Only SSE for the moment ---
 
-# SSETransport: for connecting to a running server via SSE
-sse_url = "http://127.0.0.1:8000/sse"
-headers = {"Authorization": "Bearer mytoken"}
-transport_sse = SSETransport(url=sse_url, headers=headers)
-
-# Create a client instance (default: SSE)
-# Issue with roots:static_roots in the last version of fastmcp
-client = Client(transport_sse)
-
-
-async def get_avalaible_resources():
+async def get_avalaible_resources(client):
     """
     List all available tools and resources from the MCP server.
     """
@@ -48,7 +39,7 @@ async def get_avalaible_resources():
         logger.info(f"Available resources: {resources}")
 
 
-async def read_resource(name: str):
+async def read_resource(client, name: str):
     """
     Read a resource by its URI or name.
     Args:
@@ -61,24 +52,74 @@ async def read_resource(name: str):
 
 
 if __name__ == "__main__":
-    # Uncomment the function you want to test
+    parser = argparse.ArgumentParser(
+        prog="ntealan-apis-mcp",
+        description="Sample of NTeALan MCP server client",
+        epilog="NTeALan Dictionary Platform - API MCP Server",
+    )
+    parser.add_argument("-t", "--transport", default="sse", choices=["sse", "stdio"])
+    parser.add_argument("-e", "--env", default="local", choices=["local", "prod"])
+    parser.add_argument("-s", "--seq", default=1, type=int)
+    parser.add_argument("-v", "--verbose", action="store_true")
+    args = parser.parse_args()
+
+    if args.transport == "sse":
+        # SSETransport: for connecting to a running server via SSE
+        headers = {"Authorization": "Bearer mytoken"}
+        if args.env == "prod":
+            host_sse_url = "https://apis.ntealan.net/ntealan/mcpserver/sse"
+            environ["FASTMCP_SERVER_MESSAGE_PATH"] = "/ntealan/mpcserver/messages/"
+            environ["FASTMCP_SERVER_SSE_PATH"] = "/ntealan/mpcserver/sse"
+            environ["FASTMCP_SERVER_HOST"] = "https://apis.ntealan.net/ntealan/mcpserver"
+            transport = SSETransport(url=host_sse_url, headers=headers)
+        else:
+            local_sse_url = "http://127.0.0.1:8000/sse"
+            transport = SSETransport(url=local_sse_url, headers=headers)
+    else:
+        transport = "stdio"
+
+    # Create a client instance (default: SSE)
+    # Issue with roots:static_roots in the last version of fastmcp
+    client = Client(transport)
 
     # List all tools and resources
-    # asyncio.run(get_avalaible_resources())
+    if args.seq == 0:
+        asyncio.run(get_avalaible_resources(client))
 
     # Test -- Article resources calls --
-    asyncio.run(read_resource("ntealan-apis://greeting/Elvis"))
-    # asyncio.run(read_resource("ntealan-apis://articles?limit=2"))
-    # asyncio.run(read_resource("ntealan-apis://articles/yb_fr_3031/0facf001-cb58-42c5-82b8-cd2dd2099967?none"))
-    # asyncio.run(read_resource("ntealan-apis://articles/yb_fr_3031?limit=2"))
-    # asyncio.run(read_resource("ntealan-apis://articles/statistics/yb_fr_3031"))
-    # asyncio.run(read_resource("ntealan-apis://articles/statistics"))
+    if args.seq == 1:
+        asyncio.run(read_resource(client, "ntealan-apis://greeting/Elvis"))
+    if args.seq == 2:
+        asyncio.run(read_resource(client, "ntealan-apis://articles?limit=2"))
+    if args.seq == 3:
+        asyncio.run(
+            read_resource(
+                client,
+                "ntealan-apis://articles/yb_fr_3031/0facf001-cb58-42c5-82b8-cd2dd2099967?none",
+            )
+        )
+    if args.seq == 4:
+        asyncio.run(read_resource(client, "ntealan-apis://articles/yb_fr_3031?limit=2"))
+    if args.seq == 5:
+        asyncio.run(read_resource(client, "ntealan-apis://articles/statistics/yb_fr_3031"))
+    if args.seq == 6:
+        asyncio.run(read_resource(client, "ntealan-apis://articles/statistics"))
 
     # Test -- Contribution resources calls --
-    # asyncio.run(read_resource("ntealan-apis://contributions/yb_fr_3031/0facf001-cb58-42c5-82b8-cd2dd2099967"))
+    if args.seq == 7:
+        asyncio.run(
+            read_resource(
+                client,
+                "ntealan-apis://contributions/yb_fr_3031/0facf001-cb58-42c5-82b8-cd2dd2099967",
+            )
+        )
 
     # Test -- Metadata resources calls --
-    # asyncio.run(read_resource("ntealan-apis://dictionaries/yb_fr_3031"))
-    # asyncio.run(read_resource("ntealan-apis://dictionaries?limit=2"))
-    # asyncio.run(read_resource("ntealan-apis://dictionaries/statistics/yb_fr_3031"))
-    # asyncio.run(read_resource("ntealan-apis://dictionaries/statistics"))
+    if args.seq == 8:
+        asyncio.run(read_resource(client, "ntealan-apis://dictionaries/yb_fr_3031"))
+    if args.seq == 9:
+        asyncio.run(read_resource(client, "ntealan-apis://dictionaries?limit=2"))
+    if args.seq == 10:
+        asyncio.run(read_resource(client, "ntealan-apis://dictionaries/statistics/yb_fr_3031"))
+    if args.seq == 11:
+        asyncio.run(read_resource(client, "ntealan-apis://dictionaries/statistics"))
