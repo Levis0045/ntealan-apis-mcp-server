@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/logo4.png" width=140 alt="NTeALan REST APIs MCP Server"/>
+<img src="docs/logo4.png" width=250 alt="NTeALan REST APIs MCP Server"/>
  
 <span style="font-size: 28px;font-weight: bold"> <strong>NTeALan REST APIs MCP Server</strong></span>
 
