@@ -1,8 +1,8 @@
 """
 Client test script for NTeALan REST API MCP Server.
 
-This script demonstrates how to connect to the MCP server, list available tools 
-and call tools using SSE transports.
+This script demonstrates how to connect to the MCP server,
+list available tools and call tools using SSE transports.
 
 Usage:
     uv run python examples/run_tools.py
@@ -36,6 +36,7 @@ transport_sse = SSETransport(url=sse_url, headers=headers)
 # Issue with roots:static_roots in the last version of fastmcp
 client = Client(transport_sse)
 
+
 async def get_avalaible_tools():
     """
     List all available tools and resources from the MCP server.
@@ -45,7 +46,8 @@ async def get_avalaible_tools():
         tools = await client.list_tools()
         logger.info(f"Available tools: {tools}")
 
-async def call_tool(name: str, payload:dict):
+
+async def call_tool(name: str, payload: dict):
     """
     Call a tool by name with example data.
     Args:
@@ -54,10 +56,7 @@ async def call_tool(name: str, payload:dict):
     async with client:
         logger.info(f"Client connected: {client.is_connected()}")
         # Example payload for a dictionary tool
-        result = await client.call_tool(
-            name,
-            payload
-        )
+        result = await client.call_tool(name, payload)
         logger.info(result)
 
 

@@ -1,8 +1,9 @@
 """
 Client test script for NTeALan REST API MCP Server.
 
-This script demonstrates how to connect to the MCP server, 
-list available resources, and read resources using SSE transports.
+This script demonstrates how to connect to the
+MCP server, list available resources, and read
+resources using SSE transports.
 
 Usage:
     uv run python examples/run_resources.py
@@ -36,6 +37,7 @@ transport_sse = SSETransport(url=sse_url, headers=headers)
 # Issue with roots:static_roots in the last version of fastmcp
 client = Client(transport_sse)
 
+
 async def get_avalaible_resources():
     """
     List all available tools and resources from the MCP server.
@@ -44,6 +46,7 @@ async def get_avalaible_resources():
         logger.info(f"Client connected: {client.is_connected()}")
         resources = await client.list_resources()
         logger.info(f"Available resources: {resources}")
+
 
 async def read_resource(name: str):
     """
@@ -55,7 +58,6 @@ async def read_resource(name: str):
         logger.info(f"Client connected: {client.is_connected()}")
         result = await client.read_resource(name)
         logger.info(result)
-
 
 
 if __name__ == "__main__":

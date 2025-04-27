@@ -1,7 +1,7 @@
 """
 Client test script for NTeALan REST API MCP Server.
 
-This script demonstrates how to connect to the MCP server, 
+This script demonstrates how to connect to the MCP server,
 using different transports (stdio, uvx, SSE).
 
 Usage:
@@ -31,7 +31,7 @@ transport_uvx = UvxStdioTransport(
     tool_name="ntealanmcp",
     from_package="ntealan_apis_mcp",  # Optionally specify package if tool name differs
     with_packages=["aiohttp", "lxml"],  # Add dependencies if needed
-    tool_args=["--config-file", "prod.yaml"]  # Pass args to the tool itself
+    tool_args=["--config-file", "prod.yaml"],  # Pass args to the tool itself
 )
 
 # PythonStdioTransport: for running a script directly
@@ -47,9 +47,9 @@ transport_stdio = PythonStdioTransport(
         "NTEALAN_BASE_API_URL": "https://apis.ntealan.net/ntealan",
         "NTEALAN_API_TIMEOUT": 30,
         "NTEALAN_API_RETRIES": 3,
-        "NTEALAN_API_RETRY_DELAY": 5
+        "NTEALAN_API_RETRY_DELAY": 5,
     },  # Set environment variables
-    cwd=static_roots[0]  # Set working directory
+    cwd=static_roots[0],  # Set working directory
 )
 
 # SSETransport: for connecting to a running server via SSE
