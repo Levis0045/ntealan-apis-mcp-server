@@ -1,8 +1,8 @@
-# NTeALan REST API MCP Server
+# <p style="align:center">NTeALan REST API MCP Server</p>
 
 A modular, extensible [MCP](https://modelcontextprotocol.io/) (Model Context Protocol) server for NTeALan REST APIs dictionaries and contributions. This project provides a unified interface for managing dictionary data, articles, and user contributions, and is designed for easy integration and extension.
 
-The project is deployed at [https://apis.ntealan.net/ntealan/mcpserver](https://apis.ntealan.net/ntealan/mcpserver). Only resource actions can be done now.
+The project is deployed at [https://apis.ntealan.net/ntealan/mcpserver](https://apis.ntealan.net/ntealan/mcpserver). Only resource actions can be done now (endpoint may be unavailable sometimes).
 
 ---
 
@@ -182,7 +182,7 @@ List of existings tools and status (NOT YET IMPLEMENTED):
 | `delete_contribution`  | Delete a contribution              | `dictionary_id`, `article_id`, `contribution_id`            | Not started              |
 
 
-### Examples
+### Run examples
 
 Check `examples/` folder to run and test some samples.
 
@@ -192,6 +192,27 @@ uv run examples/run_client_resources.py
 # for all tools
 uv run examples/run_client_tools.py
 ```
+
+### Deploying with Docker
+
+You can deploy the MCP server using Docker and serve it behind an Nginx reverse proxy for production environments.
+
+#### 1. Build the Docker image
+
+Build the Docker image:
+
+```bash
+docker build -t ntealan-mcp-server .
+```
+
+#### 2. Build and Start the services
+
+```bash
+docker-compose up --build -d
+```
+
+Your MCP server will now be accessible via Nginx at `http://localhost/sse` or your configured domain.
+
 
 ---
 
