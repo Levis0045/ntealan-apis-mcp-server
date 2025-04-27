@@ -121,7 +121,7 @@ ntealan-api/
 
 Resources are asynchronous functions that expose public Data from NTeALan API endpoints for  dictionaries, articles, and contributions. They are registered with the MCP server and can be called via their custom URIs.
 
-Example resource registration (see `main.py`):
+Example resource registration (see `src/ntealan_apis_mcp/main.py`):
 
 ```python
 ntl_mcp_server.add_resource_fn(
@@ -199,19 +199,28 @@ You can deploy the MCP server using Docker and serve it behind an Nginx reverse 
 
 #### 1. Build the Docker image
 
-Build the Docker image:
+Build the Docker image manually:
 
 ```bash
 docker build -t ntealan-mcp-server .
 ```
 
-#### 2. Build and Start the services
+#### 2. Or automatically build and start the service
+
+- Get and check the latest version of compose and Docker. You will get in response `Docker Compose version v2.35.1`.
 
 ```bash
-docker-compose up --build -d
+docker compose version
+```
+- Start the service
+
+```bash
+docker compose up --build -d
 ```
 
-Your MCP server will now be accessible via Nginx at `http://localhost/sse` or your configured domain.
+- Your MCP server will now be accessible at this address `http://0.0.0.0:8000` or your configured domain.
+
+- Connect with MCP Client at `http://127.0.0.1:8000/sse` or your configured domain.
 
 
 ---
