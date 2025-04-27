@@ -1,9 +1,17 @@
-# <p style="align:center">NTeALan REST API MCP Server</p>
+<div align="center">
+<p style="font-size: 28px;font-weight: bold">NTeALan REST APIs MCP Server</p>
 
-A modular, extensible [MCP](https://modelcontextprotocol.io/) (Model Context Protocol) server for NTeALan REST APIs dictionaries and contributions. This project provides a unified interface for managing dictionary data, articles, and user contributions, and is designed for easy integration and extension.
+A modular, extensible <a href="https://modelcontextprotocol.io/"> Model Context Protocol (MCP) </a> server for [NTeALan REST APIs dictionaries](https://apis.ntealan.net/ntealan) and contributions. This project provides a unified interface for managing dictionary data, articles, and user contributions, and is designed for easy integration and extension.
 
-The project is deployed at [https://apis.ntealan.net/ntealan/mcpserver](https://apis.ntealan.net/ntealan/mcpserver). Only resource actions can be done now (endpoint may be unavailable sometimes).
+The project is deployed at [https://apis.ntealan.net/ntealan/mcpserver](https://apis.ntealan.net/ntealan/mcpserver). Only resource actions is available now (this dev endpoint could be unavailable sometimes).
 
+[![smithery badge](https://smithery.ai/badge/@Levis0045/ntealan-apis-mcp-server)](https://smithery.ai/server/@Levis0045/ntealan-apis-mcp-server)
+
+[![PyPI][pypi-badge]][pypi-url]
+[![MIT licensed][mit-badge]][mit-url]
+[![Documentation][docs-badge]][docs-url]
+
+</div>
 ---
 
 ## Table of Contents
@@ -48,12 +56,15 @@ The project is deployed at [https://apis.ntealan.net/ntealan/mcpserver](https://
 
 ### Installation
 
+
+#### Installing via pip
+
 Clone the repository and install dependencies:
 
 ```bash
 git clone https://github.com/Levis0045/ntealan-apis-mcp-server.git
 cd ntealan-apis-mcp-server
-pip install -r requirements.txt
+pip install .
 ```
 
 #### (Optional) Install and use [uv](https://github.com/astral-sh/uv) for faster dependency management
@@ -69,13 +80,13 @@ uv sync
 To start the MCP server:
 
 ```bash
-python src/ntealan_apis_mcp/main.py:ntl_mcp_server
+python -m ntealanmcp -t stdio
 ```
 
 Or, if you have [uv](https://github.com/astral-sh/uv) installed, you can run server command:
 
 ```bash
-ntealanmcp
+ntealanmcp -t stdio
 ```
 
 The server will run using the `Server-Sent Events (sse)` transport by default at this endpoint `http://127.0.0.1:8000/sse`. You can modify the transport in `main.py` if needed.
@@ -148,7 +159,7 @@ List of existings resources and status:
 | `ntealan-apis://articles?{params}`                               | Get all articles                                  | `params` (e.g., `limit=10`)                     | Stable              |
 | `ntealan-apis://articles/{dictionary_id}?{params}`               | Get all articles for a dictionary                 | `dictionary_id`, `params`                       | Stable              |
 | `ntealan-apis://articles/statistics/{dictionary_id}`             | Get article statistics for a dictionary           | `dictionary_id`                                 | Stable              |
-| `ntealan-apis://articles/statistics`                             | Get statistics for all articles                   | None                                            | Stable              |
+| `ntealan-apis://articles/statistics`                             | Get statistics for all articles                   | None                                            | Not stable              |
 | `ntealan-apis://contributions/{dictionary_id}/{contribution_id}` | Get contribution by ID                            | `dictionary_id`, `contribution_id`              | Stable              |
 
 
@@ -223,6 +234,43 @@ docker compose up --build -d
 - Connect with MCP Client at `http://127.0.0.1:8000/sse` or your configured domain.
 
 
+### Connect with Smithery
+
+- Install mcp cli 
+
+```bash
+uv add "mcp[cli]"
+```
+
+- Connect with MCP client 
+
+```python
+import mcp
+from mcp.client.websocket import websocket_client
+import json
+import base64
+
+smithery_api_key = "your-api-key"
+url = f"wss://server.smithery.ai/@Levis0045/ntealan-apis-mcp-server/ws?api_key={smithery_api_key}"
+
+async def main():
+    # Connect to the server using websocket client
+    async with websocket_client(url) as streams:
+        async with mcp.ClientSession(*streams) as session:
+            # Initialize the connection
+            await session.initialize()
+            # List available tools
+            tools_result = await session.list_tools()
+            print(f"Available tools: {', '.join([t.name for t in tools_result.tools])}")
+
+            # Example of calling a tool:
+            # result = await session.call_tool("tool-name", arguments={"arg1": "value"})
+
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(main())
+```
+
 ---
 
 ## Contributing
@@ -236,3 +284,13 @@ Get more informations in this file: [CONTRIBUTION.md](CONTRIBUTION.md)
 - **NTeALan APIs documentation**: [https://apis.ntealan.net/ntealan](https://apis.ntealan.net/ntealan)
 - **GitHub Issues**: [https://github.com/Levis0045/ntealan-apis-mcp-server/issues](https://github.com/Levis0045/ntealan-apis-mcp-server/issues)
 - **Email**: contact@ntealan.org
+
+
+[pypi-badge]: https://img.shields.io/pypi/v/mcp.svg
+[pypi-url]: https://pypi.org/project/ntealan_apis_mcp/
+[mit-badge]: https://img.shields.io/pypi/l/mcp.svg
+[mit-url]: https://github.com/Levis0045/ntealan-apis-mcp-server/blob/v1/LICENSE
+[docs-badge]: https://img.shields.io/badge/docs-modelcontextprotocol.io-blue.svg
+[docs-url]: https://raw.githubusercontent.com/Levis0045/ntealan-apis-mcp-server/refs/heads/v1/README.md
+[spec-url]: https://github.com/Levis0045/ntealan-apis-mcp-server/blob/v1/README.md
+[python-url]: https://www.python.org/downloads/
