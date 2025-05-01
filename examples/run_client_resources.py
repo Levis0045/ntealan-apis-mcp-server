@@ -6,7 +6,7 @@ MCP server, list available resources, and read
 resources using SSE transports.
 
 Usage:
-    uv run python examples/run_resources.py
+    uv run python examples/run_client_resources.py
 
 Edit the script to test specific tools or resources as needed.
 """
@@ -47,6 +47,7 @@ async def read_resource(client, name: str):
     """
     async with client:
         logger.info(f"Client connected: {client.is_connected()}")
+        logger.info(f"Resource URI: {name}")
         result = await client.read_resource(name)
         logger.info(result)
 
@@ -87,26 +88,26 @@ if __name__ == "__main__":
         asyncio.run(get_avalaible_resources(client))
 
     # Test -- Article resources calls --
-    if args.seq == 1:
+    elif args.seq == 1:
         asyncio.run(read_resource(client, "ntealan-apis://greeting/Elvis"))
-    if args.seq == 2:
+    elif args.seq == 2:
         asyncio.run(read_resource(client, "ntealan-apis://articles?limit=2"))
-    if args.seq == 3:
+    elif args.seq == 3:
         asyncio.run(
             read_resource(
                 client,
-                "ntealan-apis://articles/yb_fr_3031/0facf001-cb58-42c5-82b8-cd2dd2099967?none",
+                "ntealan-apis://articles/dictionary/yb_fr_3031/0facf001-cb58-42c5-82b8-cd2dd2099967?none",
             )
         )
-    if args.seq == 4:
-        asyncio.run(read_resource(client, "ntealan-apis://articles/yb_fr_3031?limit=2"))
-    if args.seq == 5:
+    elif args.seq == 4:
+        asyncio.run(read_resource(client, "ntealan-apis://articles/dictionary/yb_fr_3031?limit=2"))
+    elif args.seq == 5:
         asyncio.run(read_resource(client, "ntealan-apis://articles/statistics/yb_fr_3031"))
-    if args.seq == 6:
+    elif args.seq == 6:
         asyncio.run(read_resource(client, "ntealan-apis://articles/statistics"))
 
     # Test -- Contribution resources calls --
-    if args.seq == 7:
+    elif args.seq == 7:
         asyncio.run(
             read_resource(
                 client,
@@ -115,11 +116,29 @@ if __name__ == "__main__":
         )
 
     # Test -- Metadata resources calls --
-    if args.seq == 8:
-        asyncio.run(read_resource(client, "ntealan-apis://dictionaries/yb_fr_3031"))
-    if args.seq == 9:
+    elif args.seq == 8:
+        asyncio.run(read_resource(client, "ntealan-apis://dictionaries/dictionary/yb_fr_3031"))
+    elif args.seq == 9:
         asyncio.run(read_resource(client, "ntealan-apis://dictionaries?limit=2"))
-    if args.seq == 10:
+    elif args.seq == 10:
         asyncio.run(read_resource(client, "ntealan-apis://dictionaries/statistics/yb_fr_3031"))
-    if args.seq == 11:
+    elif args.seq == 11:
         asyncio.run(read_resource(client, "ntealan-apis://dictionaries/statistics"))
+    elif args.seq == 12:
+        asyncio.run(
+            read_resource(
+                client,
+                "ntealan-apis://articles/dictionaries/search/yb_fr_3031?q=mba&page=1&limit=1",
+            )
+        )
+    elif args.seq == 13:
+        asyncio.run(
+            read_resource(
+                client,
+                "ntealan-apis://articles/search?q=mba&page=1",
+            )
+        )
+    elif args.seq == 14:
+        asyncio.run(
+            read_resource(client, "ntealan-apis://dictionaries/search?q=yemb&page=1&limit=1")
+        )

@@ -5,7 +5,7 @@ This script demonstrates how to connect to the MCP server,
 list available tools and call tools using SSE transports.
 
 Usage:
-    uv run python examples/run_tools.py
+    uv run python examples/run_client_tools.py
 
 Edit the script to test specific tools or resources as needed.
 """
