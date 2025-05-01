@@ -1,10 +1,8 @@
 <div align="center">
 
-<img src="docs/logo4.png" width=250 alt="NTeALan REST APIs MCP Server"/>
+<img src="docs/logo.png" width=250 alt="NTeALan REST APIs MCP Server"/>
  
-<span style="font-size: 28px;font-weight: bold"> <strong>NTeALan REST APIs MCP Server</strong></span>
-
-A modular, extensible <a href="https://modelcontextprotocol.io/"> Model Context Protocol (MCP) </a> server for [NTeALan REST APIs dictionaries](https://apis.ntealan.net/ntealan) and contributions. This project provides a unified interface for managing dictionary data, articles, and user contributions, and is designed for easy integration and extension.
+<span style="font-weight: bold"> <strong>NTeALan dictionaries MCP Server</strong></span> is a modular, extensible <a href="https://modelcontextprotocol.io/"> Model Context Protocol (MCP) </a> server for [NTeALan REST APIs dictionaries](https://apis.ntealan.net/ntealan) and contributions. This project provides a unified interface for managing dictionary data, articles, and user contributions, and is designed for easy integration and extension.
 
 The project is deployed at [https://apis.ntealan.net/ntealan/mcpserver](https://apis.ntealan.net/ntealan/mcpserver). Add `/sse` path to connect to a MCP client. Only resource actions can be used now.
 
@@ -29,10 +27,9 @@ The project is deployed at [https://apis.ntealan.net/ntealan/mcpserver](https://
   - [Running the Server](#running-the-server)
 - [Project Structure](#project-structure)
 - [Usage](#usage)
-  - [Resources](#resources)
-  - [Tools](#tools)
+  - [Resources](#primitive-resources)
+  - [Tools](#primitive-tools)
 - [Contributing](#contributing)
-- [License](#license)
 - [Contact](#contact)
 
 ---
@@ -138,7 +135,7 @@ ntealan-api/
 
 Resources are asynchronous functions that expose public Data from NTeALan API endpoints for  dictionaries, articles, and contributions. They are registered with the MCP server and can be called via their custom URIs.
 
-Example resource registration (see `src/ntealan_apis_mcp/main.py`):
+Example resource registration:
 
 ```python
 ntl_mcp_server.add_resource_fn(
@@ -146,28 +143,48 @@ ntl_mcp_server.add_resource_fn(
         dictionary_id, article_id, params, ntl_mcp_server.get_context()
     ),
     name="get_article_by_id",
-    uri="ntealan-apis://articles/{dictionary_id}/{article_id}?{params}",
+    uri="ntealan-apis://articles/dictionary/{dictionary_id}/{article_id}?{params}",
     tags=["article-endpoint", "mcp-resource"],
     mime_type="application/json",
     description="Get an article by ID"
 )
+
+# or just use the classic integration
+@ntl_mcp_server.resource(
+    uri="ntealan-apis://articles/dictionary/{dictionary_id}/{article_id}?{params}",
+    tags=["article-endpoint", "mcp-resource"],
+    mime_type="application/json"
+)
+async def get_article_by_id(
+    dictionary_id: str, article_id: UUID,
+    params: str, ctx: Context
+) -> McpResourceResponse:
+    """
+    Retrieve a article by its unique identifier.
+    """
+    # Placeholder logic
+    return {"status": "OK", "data": f"Hello, {article_id}!"}
+
 ```
 
 List of existings resources and status:
 
-| Name / URI Pattern                                               | Description                                      | Parameters                                      | Development Status   |
-|------------------------------------------------------------------|--------------------------------------------------|-------------------------------------------------|---------------------|
-| `ntealan-apis://dictionaries/{dictionary_id}`                    | Get dictionary metadata by ID                     | `dictionary_id`                                 | Stable              |
-| `ntealan-apis://dictionaries?{params}`                           | Get all dictionaries metadata                     | `params` (e.g., `limit=10`)                     | Stable              |
-| `ntealan-apis://dictionaries/statistics/{dictionary_id}`         | Get statistics for a specific dictionary          | `dictionary_id`                                 | Stable              |
-| `ntealan-apis://dictionaries/statistics`                         | Get statistics for all dictionaries               | None                                            | Stable              |
-| `ntealan-apis://articles/{dictionary_id}/{article_id}?{params}`  | Get article by ID                                 | `dictionary_id`, `article_id`, `params`         | Stable              |
-| `ntealan-apis://articles?{params}`                               | Get all articles                                  | `params` (e.g., `limit=10`)                     | Stable              |
-| `ntealan-apis://articles/{dictionary_id}?{params}`               | Get all articles for a dictionary                 | `dictionary_id`, `params`                       | Stable              |
-| `ntealan-apis://articles/statistics/{dictionary_id}`             | Get article statistics for a dictionary           | `dictionary_id`                                 | Stable              |
-| `ntealan-apis://articles/statistics`                             | Get statistics for all articles                   | None                                            | Not stable              |
-| `ntealan-apis://contributions/{dictionary_id}/{contribution_id}` | Get contribution by ID                            | `dictionary_id`, `contribution_id`              | Stable              |
-
+| Name / URI Pattern                                                        | Description                                      | Parameters                                      | Development Status   |
+|---------------------------------------------------------------------------|--------------------------------------------------|-------------------------------------------------|---------------------|
+| `ntealan-apis://dictionaries/dictionary/{dictionary_id}`                  | Get dictionary metadata by ID                     | `dictionary_id`                                 | Stable              |
+| `ntealan-apis://dictionaries?limit=2`                                     | Get all dictionaries metadata                     | `limit`                                         | Stable              |
+| `ntealan-apis://dictionaries/statistics/{dictionary_id}`                  | Get statistics for a specific dictionary          | `dictionary_id`                                 | Stable              |
+| `ntealan-apis://dictionaries/statistics`                                  | Get statistics for all dictionaries               | None                                            | Stable              |
+| `ntealan-apis://articles/dictionary/{dictionary_id}/{article_id}?none`    | Get article by ID                                 | `dictionary_id`, `article_id`                   | Stable              |
+| `ntealan-apis://articles?limit=2`                                         | Get all articles                                  | `limit`                                         | Stable              |
+| `ntealan-apis://articles/dictionary/{dictionary_id}?limit=2`              | Get all articles for a dictionary                 | `dictionary_id`, `limit`                        | Stable              |
+| `ntealan-apis://articles/statistics/{dictionary_id}`                      | Get article statistics for a dictionary           | `dictionary_id`                                 | Stable              |
+| `ntealan-apis://articles/statistics`                                      | Get statistics for all articles                   | None                                            | Not stable          |
+| `ntealan-apis://contributions/{dictionary_id}/{contribution_id}`          | Get contribution by ID                            | `dictionary_id`, `contribution_id`              | Stable              |
+| `ntealan-apis://greeting/Elvis`                                           | Greeting resource                                 | `name`                                          | Stable              |
+| `ntealan-apis://articles/dictionaries/search/{dictionary_id}?q=mba&page=1&limit=1` | Search articles in a dictionary                   | `dictionary_id`, `q`, `page`, `limit`           | Stable              |
+| `ntealan-apis://articles/search?q=mba&page=1`                             | Search articles                                  | `q`, `page`                                     | Stable              |
+| `ntealan-apis://dictionaries/search?q=yemb&page=1&limit=1`                | Search dictionaries                              | `q`, `page`, `limit`                            |  Stable              |
 
 ### Primitive tools
 
