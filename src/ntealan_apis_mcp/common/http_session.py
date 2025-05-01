@@ -1,6 +1,13 @@
 from asyncio import get_event_loop
 
-from aiohttp import AsyncResolver, ClientSession, ClientTimeout, TCPConnector, TraceConfig
+from aiohttp import (
+    AsyncResolver,
+    ClientResponse,
+    ClientSession,
+    ClientTimeout,
+    TCPConnector,
+    TraceConfig,
+)
 from dotenv import load_dotenv
 
 from ntealan_apis_mcp.models.common import (
@@ -64,16 +71,16 @@ async def run_resource_aiohttp_session(
     url: str,
     method: HttpResourceAllowMedodsEnum = HttpResourceAllowMedodsEnum.GET,
     extra_config: dict = {},
-) -> ClientSession:
+) -> ClientResponse:
     """
     Run the AIOHTTP session for resource.
 
     This function is used to run the AIOHTTP session in a synchronous context.
     It is typically used for testing or debugging purposes.
     """
-    session = await create_aiohttp_session()
-    response = await session.request(method=method, url=url, **extra_config)
-    session.close()
+    client = await create_aiohttp_session()
+    response = await client.request(method=method, url=url, **extra_config)
+    # print(f"Response content: {await response.json()}\n URL: {url}")
     return response
 
 
@@ -81,7 +88,7 @@ async def run_tool_aiohttp_session(
     url: str,
     method: HttpToolAllowMedodsEnum = HttpToolAllowMedodsEnum.POST,
     extra_config: dict = {},
-) -> ClientSession:
+) -> ClientResponse:
     """
     Run the AIOHTTP session for tool.
 
@@ -90,5 +97,5 @@ async def run_tool_aiohttp_session(
     """
     session = await create_aiohttp_session()
     response = await session.request(method=method, url=url, **extra_config)
-    await session.close()
+    session.close()
     return response
