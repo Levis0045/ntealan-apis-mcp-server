@@ -3,142 +3,80 @@ from uuid import UUID
 from fastmcp import Context
 
 from ntealan_apis_mcp.common.http_session import run_resource_aiohttp_session
+from ntealan_apis_mcp.common.utils import check_and_make_url_params
 from ntealan_apis_mcp.models.common import McpResourceResponse
 
 
-# Add a dynamic contribution resource
-async def get_contribution_by_dictionary_id(
-    dictionary_id: str, contribution_id: UUID, ctx: Context = None
-) -> McpResourceResponse:
+def add_contribution_resources_to_server(ntl_mcp_server):
     """
-    Retrieve a contribution by its unique identifier within a specific dictionary.
+    Add dynamic contribution resources to the NTeALan MCP server.
 
     Args:
-        dictionary_id (str): The unique identifier of the dictionary.
-        contribution_id (UUID): The unique identifier of the contribution.
-        ctx (Context): The context object containing request-specific information.
+        ntl_mcp_server: The NTeALan MCP server instance.
 
     Returns:
-        McpResourceResponse: A dictionary containing the status of the operation,
-                             system load, and client-specific information.
-
-    Example:
-        result = await get_contribution_by_dictionary_id("12345", UUID("abcd-1234"), ctx)
-        print(result)
+        None
     """
-    # Report initial progress
-    await ctx.report_progress(1, 3)
-    url_path = f"dictionaries/articles/{dictionary_id}/contributions/{contribution_id}"
-    await ctx.info(f"[{ctx.request_id}] Execute GET request: {url_path}...")
 
-    # Make the HTTP request
-    response = await run_resource_aiohttp_session(url_path)
+    @ntl_mcp_server.resource(
+        uri="ntealan-apis://contributions/{dictionary_id}/{contribution_id}",
+        tags=["contribution-endpoint", "mcp-resource"],
+        mime_type="application/json",
+    )
+    async def get_contribution_by_dictionary_id(
+        dictionary_id: str, contribution_id: UUID, ctx: Context
+    ) -> McpResourceResponse:
+        """
+        Retrieve a contribution by its unique identifier within a specific dictionary.
 
-    # Report intermediate progress
-    await ctx.report_progress(2, 3)
-    await ctx.info(f"[{ctx.request_id}] Checking system status: {response}...")
+        Args:
+            dictionary_id (str): The unique identifier of the dictionary.
+            contribution_id (UUID): The unique identifier of the contribution.
+            ctx (Context): The context object containing request-specific information.
 
-    # Handle non-successful responses
-    if response.status not in [200, 206]:
-        await ctx.error(f"[{ctx.request_id}] Error: {response.status}")
-        return {
-            "status": "ERROR",
-            "data": None,
-            "error_code": response.status,
-            "error_message": response.reason,
-        }
+        Returns:
+            McpResourceResponse: A dictionary containing the status of the operation,
+                                 system load, and client-specific information.
 
-    # Log successful status
-    await ctx.info(f"[{ctx.request_id}] System status is OK.")
+        Example:
+            result = await get_contribution_by_dictionary_id("12345", UUID("abcd-1234"), ctx)
+            print(result)
+        """
+        await ctx.report_progress(1, 3)
+        url_path = f"dictionaries/articles/{dictionary_id}/contributions/{contribution_id}"
+        await ctx.info(f"[{ctx.request_id}] Execute GET request: {url_path}...")
+        url_path = check_and_make_url_params(url_path, "none")
+        response = await run_resource_aiohttp_session(url_path)
+        await ctx.report_progress(2, 3)
+        await ctx.info(f"[{ctx.request_id}] Checking system status: {response}...")
+        if response.status not in [200, 206]:
+            await ctx.error(f"[{ctx.request_id}] Error: {response.status}")
+            return {
+                "status": "ERROR",
+                "data": None,
+                "error_code": response.status,
+                "error_message": response.reason,
+            }
+        await ctx.info(f"[{ctx.request_id}] System status is OK.")
+        await ctx.report_progress(3, 3)
+        json_response = await response.json()
+        return {"status": "OK", "data": json_response}
 
-    # Report final progress
-    await ctx.report_progress(3, 3)
+    @ntl_mcp_server.resource(
+        uri="ntealan-apis://contributions/{article_id}",
+        tags=["contribution-endpoint", "mcp-resource"],
+        mime_type="application/json",
+    )
+    async def get_contribution_by_id(article_id: UUID, ctx: Context) -> McpResourceResponse:
+        """
+        Retrieve a contribution by its unique identifier.
 
-    # Parse the JSON response
-    json_response = await response.json()
-    return {"status": "OK", "data": json_response}
+        Args:
+            article_id (UUID): The unique identifier of the article.
+            ctx (Context): The context object containing request-specific information.
 
-
-# Placeholder functions for other contribution-related operations
-def get_contribution_by_id(article_id: UUID, ctx: Context = None) -> str:
-    """
-    Retrieve a contribution by its unique identifier.
-
-    Args:
-        article_id (UUID): The unique identifier of the article.
-        ctx (Context): The context object containing request-specific information.
-
-    Returns:
-        str: A placeholder response.
-    """
-    return f"Hello, {article_id}!"
-
-
-def get_contributions_by_dictionary(article_id: UUID) -> str:
-    """
-    Retrieve all contributions for a specific dictionary.
-
-    Args:
-        article_id (UUID): The unique identifier of the article.
-
-    Returns:
-        str: A placeholder response.
-    """
-    return f"Hello, {article_id}!"
-
-
-def get_contributions_by_article() -> str:
-    """
-    Retrieve all contributions for a specific article.
-
-    Returns:
-        str: A placeholder response.
-    """
-    return "Hello, contributions by article!"
-
-
-def get_contributions_by_dictionary_and_article(dictionary_id: UUID) -> str:
-    """
-    Retrieve contributions for a specific dictionary and article.
-
-    Args:
-        dictionary_id (UUID): The unique identifier of the dictionary.
-
-    Returns:
-        str: A placeholder response.
-    """
-    return f"Hello, {dictionary_id}!"
-
-
-def get_all_contributions(dictionary_id: UUID) -> str:
-    """
-    Retrieve all contributions for a specific dictionary.
-
-    Args:
-        dictionary_id (UUID): The unique identifier of the dictionary.
-
-    Returns:
-        str: A placeholder response.
-    """
-    return f"Hello, {dictionary_id}!"
-
-
-def get_statistics_for_contributions_by_dictionary() -> str:
-    """
-    Retrieve statistics for contributions grouped by dictionary.
-
-    Returns:
-        str: A placeholder response.
-    """
-    return "Hello, statistics for contributions by dictionary!"
-
-
-def get_statistics_for_contributions_by_article() -> str:
-    """
-    Retrieve statistics for contributions grouped by article.
-
-    Returns:
-        str: Retrieve statistics for contributions grouped by article.
-
-    """
-    return "Hello, statistics for contributions by article!"
+        Returns:
+            McpResourceResponse: A placeholder response.
+        """
+        # Placeholder logic
+        return {"status": "OK", "data": f"Hello, {article_id}!"}
