@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/levis0045-ntealan-apis-mcp-server-badge.png)](https://mseep.ai/app/levis0045-ntealan-apis-mcp-server)
+
 <div align="center">
 
 <img src="docs/logo.png" width=250 alt="NTeALan REST APIs MCP Server"/>
